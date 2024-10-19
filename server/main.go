@@ -238,3 +238,43 @@ func registerUser() {
 type Listener struct {
 	Port int `json:"port"`
 }
+// File: server/main.go
+// Add these imports at the top if not already present
+package main
+
+import (
+    "log"
+    "your-project-path/server/listeners" // Update with your actual project path
+)
+
+// Replace your existing listeners JSON loading code with this:
+func main() {
+    // Initialize the listener manager
+    lm, err := listeners.NewListenerManager("listeners.json")
+    if err != nil {
+        log.Fatalf("Failed to initialize listener manager: %v", err)
+    }
+
+    // Your existing server initialization code...
+    
+    // Replace any existing listener operations with these methods:
+    
+    // To add a listener:
+    listener := &listeners.Listener{
+        ID:     "unique_id",
+        Type:   "tcp",
+        Host:   "0.0.0.0",
+        Port:   8080,
+        Active: true,
+    }
+    lm.AddListener(listener)
+    
+    // To get a listener:
+    existingListener, err := lm.GetListener("unique_id")
+    
+    // To list all listeners:
+    allListeners := lm.GetAllListeners()
+    
+    // To remove a listener:
+    lm.RemoveListener("unique_id")
+}
